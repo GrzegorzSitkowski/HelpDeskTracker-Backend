@@ -1,0 +1,6 @@
+@HelpDeskTracker.WebApi_HostAddress = http://localhost:5286
+
+GET {{HelpDeskTracker.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
