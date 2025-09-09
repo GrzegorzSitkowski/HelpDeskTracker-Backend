@@ -1,11 +1,28 @@
 
+using Serilog;
+
 namespace HelpDeskTracker.WebApi
 {
     public class Program
     {
+        public static string APP_NAME = "HelpDeskTracker.WebApi";
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.WithProperty("HelpDeskTracker", APP_NAME)
+                .Enrich.WithProperty("MachineName", Environment.MachineName)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateBootstrapLogger();
+
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Host.UseSerilog((context, services, configuration) => configuration
+                .Enrich.WithProperty("BookServices", APP_NAME)
+                .Enrich.WithProperty("MachineName", Environment.MachineName)
+                .ReadFrom.Configuration(context.Configuration)
+                .ReadFrom.Services(services)
+                .Enrich.FromLogContext());
 
             // Add services to the container.
 
