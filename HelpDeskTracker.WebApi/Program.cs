@@ -1,4 +1,5 @@
 
+using HelpDeskTracker.Infrastructure.Persistance;
 using Serilog;
 
 namespace HelpDeskTracker.WebApi
@@ -25,6 +26,7 @@ namespace HelpDeskTracker.WebApi
                 .Enrich.FromLogContext());
 
             // Add services to the container.
+            builder.Services.AddSqlDatabase(builder.Configuration.GetConnectionString("MainDbSql")!);
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
