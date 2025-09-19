@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HelpDeskTracker.Application\HelpDeskTracker.Application.csproj" />
     <ProjectReference Include="..\HelpDeskTracker.Domain\HelpDeskTracker.Domain.csproj" />
   </ItemGroup>
