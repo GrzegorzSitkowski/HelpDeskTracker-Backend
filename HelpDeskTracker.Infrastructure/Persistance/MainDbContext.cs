@@ -25,5 +25,10 @@ namespace HelpDeskTracker.Infrastructure.Persistance
             
             base.ConfigureConventions(configurationBuilder);
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(MainDbContext).Assembly);
+        }
     }
 }
