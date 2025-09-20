@@ -18,6 +18,11 @@ namespace HelpDeskTracker.WebApi
 
             var builder = WebApplication.CreateBuilder(args);
 
+            if (builder.Environment.IsDevelopment())
+            {
+                builder.Configuration.AddJsonFile("appsettings.Development.local.json");
+            }
+
             builder.Host.UseSerilog((context, services, configuration) => configuration
                 .Enrich.WithProperty("BookServices", APP_NAME)
                 .Enrich.WithProperty("MachineName", Environment.MachineName)
