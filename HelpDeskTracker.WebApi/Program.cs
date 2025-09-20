@@ -1,6 +1,7 @@
 
 using HelpDeskTracker.Application.Logic.Abstractions;
 using HelpDeskTracker.Infrastructure.Persistance;
+using HelpDeskTracker.WebApi.Middlewares;
 using Serilog;
 
 namespace HelpDeskTracker.WebApi
@@ -52,6 +53,8 @@ namespace HelpDeskTracker.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseExceptionResultMiddleware();
 
             app.UseHttpsRedirection();
 
