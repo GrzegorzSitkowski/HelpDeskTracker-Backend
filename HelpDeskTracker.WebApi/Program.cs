@@ -1,4 +1,5 @@
 
+using HelpDeskTracker.Application.Logic.Abstractions;
 using HelpDeskTracker.Infrastructure.Persistance;
 using Serilog;
 
@@ -37,6 +38,11 @@ namespace HelpDeskTracker.WebApi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddMediatR(c =>
+            {
+                c.RegisterServicesFromAssemblyContaining(typeof(BaseCommandHandler));
+            });
 
             var app = builder.Build();
 
