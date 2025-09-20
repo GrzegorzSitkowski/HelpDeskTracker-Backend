@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace HelpDeskTracker.Application.Logic.Abstractions
 {
-    public abstract class BaseCommandHandler
+    public abstract class BaseQueryHandler
     {
         protected readonly ICurrentAccountProvider _currentAccountProvider;
         protected readonly IApplicationDbContext _applicationDbContext;
 
-        public BaseCommandHandler(ICurrentAccountProvider currentAccountProvider, IApplicationDbContext applicationDbContext)
+        public BaseQueryHandler(ICurrentAccountProvider currentAccountProvider, IApplicationDbContext applicationDbContext)
         {
             _currentAccountProvider = currentAccountProvider;
             _applicationDbContext = applicationDbContext;
