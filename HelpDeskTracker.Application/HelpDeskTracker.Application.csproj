@@ -15,4 +15,10 @@
     <ProjectReference Include="..\HelpDeskTracker.Domain\HelpDeskTracker.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+    <Folder Include="Logic\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
