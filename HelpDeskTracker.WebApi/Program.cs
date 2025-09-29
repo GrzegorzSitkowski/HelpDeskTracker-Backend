@@ -1,4 +1,5 @@
 
+using HelpDeskTracker.Application;
 using HelpDeskTracker.Application.Logic.Abstractions;
 using HelpDeskTracker.Infrastructure.Persistance;
 using HelpDeskTracker.WebApi.Middlewares;
@@ -44,6 +45,8 @@ namespace HelpDeskTracker.WebApi
             {
                 c.RegisterServicesFromAssemblyContaining(typeof(BaseCommandHandler));
             });
+
+            builder.Services.AddApplicationServices();
 
             var app = builder.Build();
 
