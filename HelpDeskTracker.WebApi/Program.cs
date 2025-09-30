@@ -44,6 +44,7 @@ namespace HelpDeskTracker.WebApi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+
             builder.Services.AddMediatR(c =>
             {
                 c.RegisterServicesFromAssemblyContaining(typeof(BaseCommandHandler));
