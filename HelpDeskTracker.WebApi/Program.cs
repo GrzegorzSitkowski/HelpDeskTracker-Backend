@@ -34,6 +34,7 @@ namespace HelpDeskTracker.WebApi
                 .Enrich.FromLogContext());
 
             // Add services to the container.
+            builder.Services.AddDatabaseCache();
             builder.Services.AddSqlDatabase(builder.Configuration.GetConnectionString("MainDbSql")!);
 
             builder.Services.AddControllers();
@@ -47,6 +48,7 @@ namespace HelpDeskTracker.WebApi
             });
 
             builder.Services.AddApplicationServices();
+            
 
             var app = builder.Build();
 

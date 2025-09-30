@@ -1,4 +1,5 @@
-﻿using HelpDeskTracker.Application.Interfaces;
+﻿using EFCoreSecondLevelCacheInterceptor;
+using HelpDeskTracker.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -14,9 +15,11 @@ namespace HelpDeskTracker.Infrastructure.Persistance
         public static IServiceCollection AddSqlDatabase(this IServiceCollection services, string connectionString)
         {
             Action<IServiceProvider, DbContextOptionsBuilder> sqlOptions = (serviceProvider, options) => options.UseSqlServer(connectionString,
-                o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
+                o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery))
+            .AddInterceptors(serviceProvider.GetRequiredService<SecondLevelCacheInterceptor>());
 
             services.AddDbContext<IApplicationDbContext, MainDbContext>(sqlOptions);
+         
 
 
             return services;
