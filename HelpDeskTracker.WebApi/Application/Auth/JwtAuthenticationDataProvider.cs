@@ -1,8 +1,9 @@
-﻿using HelpDeskTracker.Infrastructure.Auth;
+﻿using HelpDeskTracker.Application.Interfaces;
+using HelpDeskTracker.Infrastructure.Auth;
 
 namespace HelpDeskTracker.WebApi.Application.Auth
 {
-    public class JwtAuthenticationDataProvider
+    public class JwtAuthenticationDataProvider : IAuthenticationDataProvider
     {
         private readonly JwtManager _jwtManager;
         private readonly IHttpContextAccessor _httpContextAccessor;

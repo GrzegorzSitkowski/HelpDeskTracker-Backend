@@ -3,6 +3,7 @@ using HelpDeskTracker.Application;
 using HelpDeskTracker.Application.Logic.Abstractions;
 using HelpDeskTracker.Infrastructure.Auth;
 using HelpDeskTracker.Infrastructure.Persistance;
+using HelpDeskTracker.WebApi.Application.Auth;
 using HelpDeskTracker.WebApi.Middlewares;
 using Serilog;
 
@@ -39,6 +40,8 @@ namespace HelpDeskTracker.WebApi
             builder.Services.AddDatabaseCache();
             builder.Services.AddSqlDatabase(builder.Configuration.GetConnectionString("MainDbSql")!);
             builder.Services.Configure<JwtAuthenticationOptions>(builder.Configuration.GetSection("JwtAuthentication"));
+
+            builder.Services.AddJwtAuthenticationDataProvider(builder.Configuration);
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
