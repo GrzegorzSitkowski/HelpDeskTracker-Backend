@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\HelpDeskTracker.Application\HelpDeskTracker.Application.csproj" />
     <ProjectReference Include="..\HelpDeskTracker.Infrastructure\HelpDeskTracker.Infrastructure.csproj" />
   </ItemGroup>
