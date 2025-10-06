@@ -55,9 +55,28 @@ namespace HelpDeskTracker.WebApi
             });
 
             builder.Services.AddApplicationServices();
-            
+
+            builder.Services.AddSwaggerGen(o =>
+            {
+                o.CustomSchemaIds(x =>
+                {
+                    var name = x.FullName;
+                    if (name != null)
+                    {
+                        name = name.Replace("+", "_"); // swagger bug fix
+                    }
+
+                    return name;
+                });
+            });
 
             var app = builder.Build();
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
