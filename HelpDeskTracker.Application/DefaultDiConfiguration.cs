@@ -1,5 +1,9 @@
-﻿using HelpDeskTracker.Application.Interfaces;
+﻿using FluentValidation;
+using HelpDeskTracker.Application.Interfaces;
+using HelpDeskTracker.Application.Logic.Abstractions;
 using HelpDeskTracker.Application.Services;
+using HelpDeskTracker.Application.Validators;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,6 +19,13 @@ namespace HelpDeskTracker.Application
         {
             services.AddScoped<ICurrentAccountProvider, CurrentAccountProvider>();
 
+            return services;
+        }
+
+        public static IServiceCollection AddValidators(this IServiceCollection services)
+        {
+            services.AddValidatorsFromAssemblyContaining(typeof(BaseQueryHandler));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             return services;
         }
     }
