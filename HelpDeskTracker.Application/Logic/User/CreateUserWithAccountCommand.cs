@@ -1,4 +1,5 @@
-﻿using HelpDeskTracker.Application.Exceptions;
+﻿using FluentValidation;
+using HelpDeskTracker.Application.Exceptions;
 using HelpDeskTracker.Application.Interfaces;
 using HelpDeskTracker.Application.Logic.Abstractions;
 using HelpDeskTracker.Domain.Entities;
