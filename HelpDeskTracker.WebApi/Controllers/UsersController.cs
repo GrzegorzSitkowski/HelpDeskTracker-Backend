@@ -35,6 +35,13 @@ namespace HelpDeskTracker.WebApi.Controllers
             return Ok(new JwtToken() { AccessToken = token });
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetLoggedInUser()
+        {
+            var data = await _mediator.Send(new LoggedInUserQuery.Request() { });
+            return Ok(data);
+        }
+
         public class JwtToken
         {
             public string? AccessToken { get; set; }
