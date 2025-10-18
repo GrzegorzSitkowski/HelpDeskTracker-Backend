@@ -24,6 +24,11 @@ namespace HelpDeskTracker.WebApi.Middlewares
                 httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 await httpContext.Response.WriteAsJsonAsync(new ErrorResponse { Error = e.Error });
             }
+            catch (ValidationException ve)
+            {
+                httpContext.Response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
+                await httpContext.Response.WriteAsJsonAsync(new ValidationErrorResponse(ve));
+            }
             catch (UnauthorizedException ue)
             {
                 httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
@@ -35,6 +40,7 @@ namespace HelpDeskTracker.WebApi.Middlewares
                 httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 await httpContext.Response.WriteAsJsonAsync("Server error");
             }
+           
         }
     }
 }
