@@ -5,6 +5,7 @@ using HelpDeskTracker.Infrastructure.Auth;
 using HelpDeskTracker.Infrastructure.Persistance;
 using HelpDeskTracker.WebApi.Application.Auth;
 using HelpDeskTracker.WebApi.Middlewares;
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
 namespace HelpDeskTracker.WebApi
@@ -43,7 +44,13 @@ namespace HelpDeskTracker.WebApi
 
             builder.Services.AddJwtAuthenticationDataProvider(builder.Configuration);
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllersWithViews(options =>
+            {
+                if (!builder.Environment.IsDevelopment())
+                {
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                }
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddValidators();
@@ -70,6 +77,10 @@ namespace HelpDeskTracker.WebApi
 
                     return name;
                 });
+            });
+
+            builder.Services.AddAntiforgery(o => {
+                o.HeaderName = "X-XSRF-TOKEN";
             });
 
             builder.Services.AddCors();

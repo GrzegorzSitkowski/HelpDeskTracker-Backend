@@ -3,6 +3,7 @@ using HelpDeskTracker.Application.Logic.User;
 using HelpDeskTracker.Infrastructure.Auth;
 using HelpDeskTracker.WebApi.Application.Auth;
 using MediatR;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -13,14 +14,17 @@ namespace HelpDeskTracker.WebApi.Controllers
     {
         private readonly CookieSettings? _cookieSettings;
         private readonly JwtManager _jwtManager;
+        private readonly IAntiforgery _antiforgery;
 
-        public UsersController(ILogger<UsersController> logger, IMediator mediator, IOptions<CookieSettings> cookieSettings, JwtManager jwtManager) : base(logger, mediator)
+        public UsersController(ILogger<UsersController> logger, IMediator mediator, IOptions<CookieSettings> cookieSettings, JwtManager jwtManager, IAntiforgery antiforgery) : base(logger, mediator)
         {
             _cookieSettings = cookieSettings != null ? cookieSettings.Value : null;
             _jwtManager = jwtManager;
+            _antiforgery = antiforgery;
         }
 
         [HttpPost]
+        [IgnoreAntiforgeryToken]
         public async Task<ActionResult> CreateUserWithAccount([FromBody] CreateUserWithAccountCommand.Request model)
         {
             var createAccountResult = await _mediator.Send(model);
@@ -41,6 +45,13 @@ namespace HelpDeskTracker.WebApi.Controllers
         {
             var data = await _mediator.Send(new CurrentAccountQuery.Request() { });
             return Ok(data);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> AntiforgeryToken()
+        {
+            var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
+            return Ok(tokens.RequestToken);
         }
 
         public class JwtToken
