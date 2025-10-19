@@ -7,6 +7,7 @@ using HelpDeskTracker.WebApi.Application.Auth;
 using HelpDeskTracker.WebApi.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using System.Text.Json.Serialization;
 
 namespace HelpDeskTracker.WebApi
 {
@@ -50,7 +51,8 @@ namespace HelpDeskTracker.WebApi
                 {
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 }
-            });
+            }).AddJsonOptions(options =>
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddValidators();

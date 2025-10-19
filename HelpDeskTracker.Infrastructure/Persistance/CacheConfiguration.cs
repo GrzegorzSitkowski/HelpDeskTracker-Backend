@@ -13,8 +13,11 @@ namespace HelpDeskTracker.Infrastructure.Persistance
         public static IServiceCollection AddDatabaseCache(this IServiceCollection services)
         {
             services.AddEFSecondLevelCache(options =>
-            options.UseMemoryCacheProvider(CacheExpirationMode.Absolute, TimeSpan.FromMinutes(5)).DisableLogging(false).UseCacheKeyPrefix("EF_")
+                options.UseMemoryCacheProvider(CacheExpirationMode.Absolute, TimeSpan.FromMinutes(5))
+                    .ConfigureLogging(true) //w nowszej wersji biblioteki użyj ConfigureLogging(true)
+                    .UseCacheKeyPrefix("EF_")
             );
+
             return services;
         }
     }
