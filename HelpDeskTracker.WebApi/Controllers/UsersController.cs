@@ -1,4 +1,5 @@
-﻿using HelpDeskTracker.Application.Logic.User;
+﻿using HelpDeskTracker.Application.Logic.Account;
+using HelpDeskTracker.Application.Logic.User;
 using HelpDeskTracker.Infrastructure.Auth;
 using HelpDeskTracker.WebApi.Application.Auth;
 using MediatR;
@@ -38,7 +39,7 @@ namespace HelpDeskTracker.WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult> GetLoggedInUser()
         {
-            var data = await _mediator.Send(new LoggedInUserQuery.Request() { });
+            var data = await _mediator.Send(new CurrentAccountQuery.Request() { });
             return Ok(data);
         }
 
