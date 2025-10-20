@@ -1,6 +1,8 @@
 
 using HelpDeskTracker.Application;
+using HelpDeskTracker.Application.Interfaces;
 using HelpDeskTracker.Application.Logic.Abstractions;
+using HelpDeskTracker.Application.Services;
 using HelpDeskTracker.Infrastructure.Auth;
 using HelpDeskTracker.Infrastructure.Persistance;
 using HelpDeskTracker.WebApi.Application.Auth;
@@ -31,7 +33,7 @@ namespace HelpDeskTracker.WebApi
             }
 
             builder.Host.UseSerilog((context, services, configuration) => configuration
-                .Enrich.WithProperty("BookServices", APP_NAME)
+                .Enrich.WithProperty("HelpDeskTracker", APP_NAME)
                 .Enrich.WithProperty("MachineName", Environment.MachineName)
                 .ReadFrom.Configuration(context.Configuration)
                 .ReadFrom.Services(services)
@@ -44,6 +46,10 @@ namespace HelpDeskTracker.WebApi
             builder.Services.Configure<JwtAuthenticationOptions>(builder.Configuration.GetSection("JwtAuthentication"));
 
             builder.Services.AddJwtAuthenticationDataProvider(builder.Configuration);
+            builder.Services.AddScoped<JwtManager>();
+            builder.Services.AddScoped<IAuthenticationDataProvider, JwtAuthenticationDataProvider>();
+            builder.Services.AddScoped<ICurrentAccountProvider, CurrentAccountProvider>();
+            builder.Services.AddPasswordManager();
 
             builder.Services.AddControllersWithViews(options =>
             {
@@ -95,13 +101,6 @@ namespace HelpDeskTracker.WebApi
                 app.UseSwaggerUI();
             }
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
             app.UseCors(builder => builder
                .WithOrigins(app.Configuration.GetValue<string>("WebAppBaseUrl") ?? "")
                .WithOrigins(app.Configuration.GetSection("AdditionalCorsOrigins").Get<string[]>() ?? new string[0])
@@ -112,7 +111,7 @@ namespace HelpDeskTracker.WebApi
 
             app.UseExceptionResultMiddleware();
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseAuthorization();
 

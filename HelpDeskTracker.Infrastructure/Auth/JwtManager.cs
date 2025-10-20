@@ -13,6 +13,7 @@ namespace HelpDeskTracker.Infrastructure.Auth
     public class JwtManager
     {
         private readonly JwtAuthenticationOptions _jwtOptions;
+
         public const string UserIdClaim = "UserId";
 
         public JwtManager(IOptions<JwtAuthenticationOptions> jwtOptions)
@@ -22,7 +23,7 @@ namespace HelpDeskTracker.Infrastructure.Auth
 
         private SecurityKey GetSecurityKey()
         {
-            if(string.IsNullOrWhiteSpace(_jwtOptions.Secret))
+            if (string.IsNullOrWhiteSpace(_jwtOptions.Secret))
             {
                 throw new ArgumentException("JWT options secret is empty!");
             }

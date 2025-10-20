@@ -14,6 +14,17 @@ namespace HelpDeskTracker.WebApi.Application.Auth
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public int? GetUserId()
+        {
+            var userIdString = GetClaimValue(JwtManager.UserIdClaim);
+            if (int.TryParse(userIdString, out int res))
+            {
+                return res;
+            }
+
+            return null;
+        }
+
         private string? GetTokenFromCookie()
         {
             return _httpContextAccessor.HttpContext?.Request.Cookies[CookieSettings.CookieName];
@@ -47,17 +58,6 @@ namespace HelpDeskTracker.WebApi.Application.Auth
             if (!string.IsNullOrWhiteSpace(token) && _jwtManager.ValidateToken(token))
             {
                 return _jwtManager.GetClaim(token, claimType);
-            }
-
-            return null;
-        }
-
-        public int? GetUserId()
-        {
-            var userIdString = GetClaimValue(JwtManager.UserIdClaim);
-            if (int.TryParse(userIdString, out int res))
-            {
-                return res;
             }
 
             return null;
