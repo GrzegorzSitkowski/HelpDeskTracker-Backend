@@ -17,11 +17,11 @@ namespace HelpDeskTracker.Application.Logic.User
     {
         public class Request : IRequest<Result>
         {
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
+            //public string FirstName { get; set; }
+            //public string LastName { get; set; }
             public required string Email { get; set; }
             public required string Password { get; set; }
-            public string Type { get; set; }
+            //public string Type { get; set; }
         }
 
         public class Result

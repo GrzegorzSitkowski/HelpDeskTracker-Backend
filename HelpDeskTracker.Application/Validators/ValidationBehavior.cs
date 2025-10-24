@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HelpDeskTracker.Application.Validators
 {
-    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TRequest>
     {
         private readonly IList<IValidator<TRequest>> _validators;
 
@@ -24,7 +24,25 @@ namespace HelpDeskTracker.Application.Validators
                 return await next();
             }
 
-            // Tutaj dodaj implementację walidacji przy użyciu walidatorów i rzucanie wyjątku
+            var context = new ValidationContext<TRequest>(request);
+            var errors = _validators
+                .Select(v => v.Validate(context))
+                .SelectMany(v => v.Errors)
+                .Where(e => e != null)
+                .GroupBy(e => new { e.PropertyName, e.ErrorCode })
+                .ToList();
+
+            if (errors.Any())
+            {
+                throw new Exceptions.ValidationException()
+                {
+                    Errors = errors.Select(e => new Exceptions.ValidationException.FieldError()
+                    {
+                        Error = e.Key.ErrorCode,
+                        FieldName = e.Key.PropertyName,
+                    }).ToList(),
+                };
+            }
 
             return await next();
         }
